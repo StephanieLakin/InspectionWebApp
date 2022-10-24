@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InspectionApiService } from 'src/app/services/inspection-api.service';
-import { InspectionTypeService } from 'src/app/services/inspectionType.service';
-import { StatusService } from 'src/app/services/Status.service';
 
 @Component({
   selector: 'app-show-inspection',
   templateUrl: './show-inspection.component.html',
   styleUrls: ['./show-inspection.component.css'],
+  providers: [InspectionApiService],
 })
 export class ShowInspectionComponent implements OnInit {
   inspectionList$!: Observable<any[]>;
-  inspectionTypesList$!: Observable<any[]>;
+  inspectionTypeList$!: Observable<any[]>;
 
-  constructor(
-    private InspectionApiService: InspectionApiService,
-    private InspectionTypeService: InspectionTypeService,
-    private StatusService: StatusService
-  ) {}
+  // Map to display data associated with FK
+  inspectionTypeMap: Map<number, string> = new Map();
 
-  ngOnInit(): void {}
+  constructor(private Service: InspectionApiService) {}
+
+  ngOnInit(): void {
+    this.inspectionList$ = this.Service.getInspectionList();
+  }
 }

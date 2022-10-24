@@ -1,1 +1,17 @@
-<p>show-inspection works!</p>
+<table class="table table-striped">
+  <thead>
+    <th>Id</th>
+    <th>Inspection Type</th>
+    <th>Status</th>
+    <th>Comments</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of inspectionList$ | async">
+      <td>{{ item.id }}</td>
+      <td>{{ item.inspectionTypeId }}</td>
+      <td>{{ item.status }}</td>
+      <td>{{ item.comments }}</td>
+      <td>{{ item.inspectionType.name }}</td>
+    </tr>
+  </tbody>
+</table>

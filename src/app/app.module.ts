@@ -1,6 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InspectionApiService } from './services/inspection-api.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -16,7 +15,7 @@ import { AddEditInspectionComponent } from './inspection/add-edit-inspection/add
     ShowInspectionComponent,
     AddEditInspectionComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

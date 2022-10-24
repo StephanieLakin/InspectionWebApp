@@ -10,22 +10,19 @@ export class InspectionTypeService {
 
   constructor(private http: HttpClient) {}
 
-  getInspectionTypesList(): Observable<any[]> {
-    return this.http.get<any>(this.inspectionApiUrl + '/inspectionTypes');
+  getInspectionTypeList(): Observable<any[]> {
+    return this.http.get<any>(this.inspectionApiUrl + '/inspectionType');
   }
 
-  addInspectionTypes(data: any) {
-    return this.http.post(this.inspectionApiUrl + './inspectionTypes', data);
+  addInspectionType(data: any) {
+    return this.http.post(this.inspectionApiUrl + './inspectionType', data);
   }
 
-  updateInspectionTypes(id: number | string, data: any) {
-    return this.http.put(
-      this.inspectionApiUrl + `/inspectionTypes/${id}`,
-      data
-    );
+  updateInspectionType(id: number | string, data: any) {
+    return this.http.put(this.inspectionApiUrl + `/inspectionType/${id}`, data);
   }
 
-  deleteInspectionTypes(id: number | string) {
-    return this.http.delete(this.inspectionApiUrl + `/inspectionTypes/${id}`);
+  deleteInspectionType(id: number | string) {
+    return this.http.delete(this.inspectionApiUrl + `/inspectionType/${id}`);
   }
 }
