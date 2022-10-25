@@ -11,6 +11,6 @@ export class AddEditInspectionComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.inspectionType = this.inspection.inspectionType;
+    // this.inspectionType = this.inspection.inspectionType;
   }
 }

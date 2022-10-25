@@ -11,13 +11,29 @@ import { InspectionApiService } from 'src/app/services/inspection-api.service';
 export class ShowInspectionComponent implements OnInit {
   inspectionList$!: Observable<any[]>;
   inspectionTypeList$!: Observable<any[]>;
+  inspectionTypeList: any = [];
 
-  // Map to display data associated with FK
+  // Map to display data associated with Foreign Keys:
   inspectionTypeMap: Map<number, string> = new Map();
 
   constructor(private Service: InspectionApiService) {}
 
   ngOnInit(): void {
     this.inspectionList$ = this.Service.getInspectionList();
+    this.inspectionTypeList$ = this.Service.getInspectionTypesList();
+    this.refreshInspectionTypesMap();
+  }
+
+  refreshInspectionTypesMap() {
+    this.Service.getInspectionList().subscribe((data) => {
+      this.inspectionTypeList = data;
+
+      for (let i = 0; i < data.length; i++) {
+        this.inspectionTypeMap.set(
+          this.inspectionTypeList[i].id,
+          this.inspectionTypeList[i].inspectionName
+        );
+      }
+    });
   }
 }

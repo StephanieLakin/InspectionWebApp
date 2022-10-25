@@ -1,17 +1,60 @@
+<!-- Button trigger modal -->
+<button
+  type="button"
+  class="btn btn-secondary float-end"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  Show Inspection Types
+</button>
+
 <table class="table table-striped">
   <thead>
     <th>Id</th>
-    <th>Inspection Type</th>
+    <th>Type</th>
+    <th>Name</th>
     <th>Status</th>
     <th>Comments</th>
   </thead>
   <tbody>
     <tr *ngFor="let item of inspectionList$ | async">
-      <td>{{ item.id }}</td>
+      <td>
+        {{ item.id }}
+      </td>
       <td>{{ item.inspectionTypeId }}</td>
+      <td>{{ inspectionTypeMap.get(item.inspectionTypeId) }}</td>
       <td>{{ item.status }}</td>
       <td>{{ item.comments }}</td>
-      <td>{{ item.inspectionType.name }}</td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Inspection Types
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p *ngFor="let type of inspectionTypeList$ | async">
+          {{ type.id }} - {{ type.inspectionName }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
