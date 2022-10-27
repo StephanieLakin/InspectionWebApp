@@ -12,6 +12,9 @@ export class ShowInspectionComponent implements OnInit {
   inspectionList$!: Observable<any[]>;
   inspectionTypeList$!: Observable<any[]>;
   inspectionTypeList: any = [];
+  inspection: any;
+  modalTitle: string = '';
+  activateAddEditInspectionComponent: boolean = false;
 
   // Map to display data associated with Foreign Keys:
   inspectionTypeMap: Map<number, string> = new Map();
@@ -20,20 +23,28 @@ export class ShowInspectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.inspectionList$ = this.Service.getInspectionList();
-    this.inspectionTypeList$ = this.Service.getInspectionTypesList();
-    this.refreshInspectionTypesMap();
+    this.inspectionTypeList$ = this.Service.getInspectionTypeList();
   }
 
-  refreshInspectionTypesMap() {
-    this.Service.getInspectionList().subscribe((data) => {
-      this.inspectionTypeList = data;
+  modalAdd() {
+    this.inspection = {
+      id: 0,
+      status: null,
+      commments: null,
+      inspectionTypeId: null,
+    };
+    this.modalTitle = 'Add Inspection';
+    this.activateAddEditInspectionComponent = true;
+  }
 
-      for (let i = 0; i < data.length; i++) {
-        this.inspectionTypeMap.set(
-          this.inspectionTypeList[i].id,
-          this.inspectionTypeList[i].inspectionName
-        );
-      }
-    });
+  modalEdit(item: any) {
+    this.inspection = item;
+    this.modalTitle = 'Edit Inspection';
+    this.activateAddEditInspectionComponent = true;
+  }
+
+  modalClose() {
+    this.activateAddEditInspectionComponent = false;
+    this.inspectionList$ = this.Service.getInspectionList();
   }
 }
