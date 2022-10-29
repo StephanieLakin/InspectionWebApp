@@ -6,31 +6,33 @@ import { InspectionApiService } from 'src/app/services/inspection-api.service';
   selector: 'app-show-inspection',
   templateUrl: './show-inspection.component.html',
   styleUrls: ['./show-inspection.component.css'],
-  providers: [InspectionApiService],
 })
 export class ShowInspectionComponent implements OnInit {
   inspectionList$!: Observable<any[]>;
   inspectionTypeList$!: Observable<any[]>;
   inspectionTypeList: any = [];
-  inspection: any;
-  modalTitle: string = '';
-  activateAddEditInspectionComponent: boolean = false;
 
-  // Map to display data associated with Foreign Keys:
-  inspectionTypeMap: Map<number, string> = new Map();
+  // Map to display data associate with foreign keys
+  inspectionTypesMap: Map<number, string> = new Map();
 
-  constructor(private Service: InspectionApiService) {}
+  constructor(private service: InspectionApiService) {}
 
   ngOnInit(): void {
-    this.inspectionList$ = this.Service.getInspectionList();
-    this.inspectionTypeList$ = this.Service.getInspectionTypeList();
+    this.inspectionList$ = this.service.getInspectionList();
+    this.inspectionTypeList$ = this.service.getInspectionTypeList();
+    this.refreshInspectionTypesMap();
   }
+
+  // Variables (properties)
+  modalTitle: string = '';
+  activateAddEditInspectionComponent: boolean = false;
+  inspection: any;
 
   modalAdd() {
     this.inspection = {
       id: 0,
       status: null,
-      commments: null,
+      comments: null,
       inspectionTypeId: null,
     };
     this.modalTitle = 'Add Inspection';
@@ -43,8 +45,43 @@ export class ShowInspectionComponent implements OnInit {
     this.activateAddEditInspectionComponent = true;
   }
 
+  delete(item: any) {
+    if (confirm(`Are you sure you want to delete inspection ${item.id}`)) {
+      this.service.deleteInspection(item.id).subscribe((res) => {
+        var closeModalBtn = document.getElementById('add-edit-modal-close');
+        if (closeModalBtn) {
+          closeModalBtn.click();
+        }
+
+        var showDeleteSuccess = document.getElementById('delete-success-alert');
+        if (showDeleteSuccess) {
+          showDeleteSuccess.style.display = 'block';
+        }
+        setTimeout(function () {
+          if (showDeleteSuccess) {
+            showDeleteSuccess.style.display = 'none';
+          }
+        }, 4000);
+        this.inspectionList$ = this.service.getInspectionList();
+      });
+    }
+  }
+
   modalClose() {
     this.activateAddEditInspectionComponent = false;
-    this.inspectionList$ = this.Service.getInspectionList();
+    this.inspectionList$ = this.service.getInspectionList();
+  }
+
+  refreshInspectionTypesMap() {
+    this.service.getInspectionTypeList().subscribe((data) => {
+      this.inspectionTypeList = data;
+
+      for (let i = 0; i < data.length; i++) {
+        this.inspectionTypesMap.set(
+          this.inspectionTypeList[i].id,
+          this.inspectionTypeList[i].inspectionName
+        );
+      }
+    });
   }
 }

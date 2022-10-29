@@ -6,17 +6,15 @@ import { InspectionApiService } from 'src/app/services/inspection-api.service';
   selector: 'app-add-edit-inspection',
   templateUrl: './add-edit-inspection.component.html',
   styleUrls: ['./add-edit-inspection.component.css'],
-  providers: [InspectionApiService],
 })
 export class AddEditInspectionComponent implements OnInit {
   inspectionList$!: Observable<any[]>;
   statusList$!: Observable<any[]>;
   inspectionTypeList$!: Observable<any[]>;
-  inspectionType: any;
-  constructor(private Service: InspectionApiService) {}
 
-  @Input()
-  inspection: any;
+  constructor(private service: InspectionApiService) {}
+
+  @Input() inspection: any;
   id: number = 0;
   status: string = '';
   comments: string = '';
@@ -27,9 +25,9 @@ export class AddEditInspectionComponent implements OnInit {
     this.status = this.inspection.status;
     this.comments = this.inspection.comments;
     this.inspectionTypeId = this.inspection.inspectionTypeId;
-    this.statusList$ = this.Service.getStatusList();
-    this.inspectionList$ = this.Service.getInspectionList();
-    this.inspectionTypeList$ = this.Service.getInspectionTypeList();
+    this.statusList$ = this.service.getStatusList();
+    this.inspectionList$ = this.service.getInspectionList();
+    this.inspectionTypeList$ = this.service.getInspectionTypeList();
   }
 
   addInspection() {
@@ -38,11 +36,12 @@ export class AddEditInspectionComponent implements OnInit {
       comments: this.comments,
       inspectionTypeId: this.inspectionTypeId,
     };
-    this.Service.addInspection(inspection).subscribe((res) => {
+    this.service.addInspection(inspection).subscribe((res) => {
       var closeModalBtn = document.getElementById('add-edit-modal-close');
       if (closeModalBtn) {
         closeModalBtn.click();
       }
+
       var showAddSuccess = document.getElementById('add-success-alert');
       if (showAddSuccess) {
         showAddSuccess.style.display = 'block';
@@ -52,56 +51,32 @@ export class AddEditInspectionComponent implements OnInit {
           showAddSuccess.style.display = 'none';
         }
       }, 4000);
-      return res;
     });
   }
 
-  // updateInspection() {
-  //   var inspection = {
-  //     id: this.id,
-  //     status: this.status,
-  //     comments: this.comments,
-  //     inspectionTypeId: this.inspectionTypeId,
-  //   };
-  //   var id: number = this.id;
-  //   this.Service.updateInspection(id, inspection).subscribe((res) => {
-  //     var closeModalBtn = document.getElementById('add-edit-modal-close');
-  //     if (closeModalBtn) {
-  //       closeModalBtn.click();
-  //     }
+  updateInspection() {
+    var inspection = {
+      id: this.id,
+      status: this.status,
+      comments: this.comments,
+      inspectionTypeId: this.inspectionTypeId,
+    };
+    var id: number = this.id;
+    this.service.updateInspection(id, inspection).subscribe((res) => {
+      var closeModalBtn = document.getElementById('add-edit-modal-close');
+      if (closeModalBtn) {
+        closeModalBtn.click();
+      }
 
-  //     var showUpdateSuccess = document.getElementById('update-success-alert');
-  //     if (showUpdateSuccess) {
-  //       showUpdateSuccess.style.display = 'none';
-  //     }
-  //     setTimeout(function () {
-  //       if (showUpdateSuccess) {
-  //         showUpdateSuccess.style.display = 'none';
-  //       }
-  //     }, 4000);
-  //     return res;
-  //   });
-  // }
-
-  // delete(item: any) {
-  //   if (confirm(`Are you sure you want to delete inspection ${item.id}`)) {
-  //     this.Service.deleteInspection(item.id).subscribe((res) => {
-  //       var closeModalBtn = document.getElementById('add-edit-modal-close');
-  //       if (closeModalBtn) {
-  //         closeModalBtn.click();
-  //       }
-
-  //       var showDeleteSuccess = document.getElementById('delete-success-alert');
-  //       if (showDeleteSuccess) {
-  //         showDeleteSuccess.style.display = 'block';
-  //       }
-  //       setTimeout(function () {
-  //         if (showDeleteSuccess) {
-  //           showDeleteSuccess.style.display = 'none';
-  //         }
-  //       }, 4000);
-  //       this.inspectionList$ = this.Service.getInspectionList();
-  //     });
-  //   }
-  // }
+      var showUpdateSuccess = document.getElementById('update-success-alert');
+      if (showUpdateSuccess) {
+        showUpdateSuccess.style.display = 'block';
+      }
+      setTimeout(function () {
+        if (showUpdateSuccess) {
+          showUpdateSuccess.style.display = 'none';
+        }
+      }, 4000);
+    });
+  }
 }

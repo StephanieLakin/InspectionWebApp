@@ -9,6 +9,51 @@
 #delete-success-alert{
     animation-name: fadeInAndOut;
     animation-duration: 4s;
+    background-color: olivedrab;
+    opacity: 50%;
+    color: #fff;
+    width: 50%;
+    text-align: center;
+    left: 25%;
+}
+
+#addInspBtn{
+background-color: olivedrab;
+border-color: darkolivegreen;
+}
+
+ #deleteBtn {
+   color:brown;
+   border-color: brown;
+}
+
+#editBtn {
+    color:olivedrab;
+    border-color: darkolivegreen;
+ 
+ }
+
+table{   
+    background-color:burlywood;
+    opacity:0.85; 
+    padding: .5em;
+    margin-bottom: 1.2rem;      
+    box-shadow: 5px 10px 10px;
+    border-color: darkolivegreen;
+      }
+
+button {
+        box-shadow: 1px 1px 2px #000;
+      }
+
+
+th{
+    padding-left: 2rem;
+}
+
+td {
+    font-size: 1.2em;
+    padding-left: 2rem;
 }
 
 @-webkit-keyframes fadeInAndOut {
