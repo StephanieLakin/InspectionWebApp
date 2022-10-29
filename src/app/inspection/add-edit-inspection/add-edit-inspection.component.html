@@ -46,6 +46,7 @@
     (click)="addInspection()"
     *ngIf="inspection.id == 0"
     class="btn btn-primary"
+    id="addBtn"
   >
     Add
   </button>
@@ -54,8 +55,8 @@
     (click)="updateInspection()"
     *ngIf="inspection.id != 0"
     class="btn btn-primary"
+    id="updBtn"
   >
     Update
   </button>
 </form>
-

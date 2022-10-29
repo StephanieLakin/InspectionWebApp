@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InspectionApiService } from 'src/app/services/inspection-api.service';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-show-inspection',
@@ -65,6 +66,19 @@ export class ShowInspectionComponent implements OnInit {
         this.inspectionList$ = this.service.getInspectionList();
       });
     }
+  }
+
+  @ViewChild('content', { static: false }) el!: ElementRef;
+
+  generatePdf() {
+    let pdf = new jsPDF();
+    pdf.setFontSize(14);
+    pdf.setFillColor('#ffffff');
+    pdf.html(this.el.nativeElement, {
+      callback: (pdf) => {
+        pdf.save('HomeInspList.pdf');
+      },
+    });
   }
 
   modalClose() {
